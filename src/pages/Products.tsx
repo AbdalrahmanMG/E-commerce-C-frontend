@@ -1,26 +1,22 @@
 import { Grid } from "@chakra-ui/react";
 import ProductCard from "../components/ProductCard";
-import { useEffect, useState } from "react";
-import axiosInstance from "../components/config/axios.config";
 import { IProduct } from "../Interfaces";
+import useProductsQuery from "../components/hooks/useProductsQuery";
 
 const Products = () => {
-  const [productList, setProductList] = useState<IProduct[]>([]);
-  //** handlers
-  const getProducts = async () => {
-    const { data } = await axiosInstance.get("/products?populate=thumbnail");
-    setProductList(data.data);
-  };
 
-  useEffect(() => {
-    getProducts();
-  }, []);
+  const { data, isLoading } = useProductsQuery({
+    queryKey: ["products"],
+    url: "/products?populate=thumbnail",
+  });
+
+  if (isLoading) return <h3>Loading...</h3>;
 
   return (
     <div>
       <Grid templateColumns="repeat(auto-fill, minmax(300px, 1fr))">
-        {productList.map((product) => (
-          <ProductCard key={product.id} product={product}/>
+        {data.data.map((product: IProduct) => (
+          <ProductCard key={product.id} product={product} />
         ))}
       </Grid>
     </div>
