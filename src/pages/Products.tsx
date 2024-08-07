@@ -2,15 +2,22 @@ import { Grid } from "@chakra-ui/react";
 import ProductCard from "../components/ProductCard";
 import { IProduct } from "../Interfaces";
 import useProductsQuery from "../components/hooks/useProductsQuery";
+import ProductCardSkeleton from "../components/ProductCardSkeleton";
 
 const Products = () => {
-
   const { data, isLoading } = useProductsQuery({
     queryKey: ["products"],
     url: "/products?populate=thumbnail",
   });
 
-  if (isLoading) return <h3>Loading...</h3>;
+  if (isLoading)
+    return (
+      <Grid templateColumns="repeat(auto-fill, minmax(300px, 1fr))">
+        {Array.from({length: 10}, (_, idx)=>(
+          <ProductCardSkeleton  key={idx}/>
+        ))}
+      </Grid>
+    );
 
   return (
     <div>
