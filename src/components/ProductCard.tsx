@@ -6,14 +6,14 @@ interface IProps {
   product: IProduct
 }
 
-const ProductCard = ({product:{attributes}}: IProps) => {
+const ProductCard = ({product:{attributes,id}}: IProps) => {
   const { colorMode } = useColorMode();
   
   return (
     <Card border={"1px solid #a8b5c8"} margin={4} bg={"none"}>
       <CardBody>
         <Image
-          src={`${import.meta.env.VITE_SERVER_URL}${attributes.thumbnail.data.attributes.url}`} alt="Green double couch with wooden legs"
+          src={`${import.meta.env.VITE_SERVER_URL}${attributes.thumbnail.data.attributes.url}`} alt={attributes.title}
           borderRadius="full"
           boxSize={"200px"}
           mx={"auto"}
@@ -34,7 +34,7 @@ const ProductCard = ({product:{attributes}}: IProps) => {
           variant="solid"
           colorScheme="blue"
           as={Link}
-          to={`/products/1`}
+          to={`/products/${id}`}
           bg={colorMode === "light" ? "#e6f3fd" : "#9f7aea"}
           color={colorMode !== "light" ? "#e6f3fd" : "#9f7aea"}
           _hover={{
