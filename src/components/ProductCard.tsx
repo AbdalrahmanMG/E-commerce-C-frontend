@@ -1,30 +1,30 @@
 import { Button, Card, CardBody, CardFooter, Divider, Heading, Image, Stack, Text, useColorMode } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import { IProduct } from "../Interfaces";
 
-interface IProps {}
+interface IProps {
+  product: IProduct
+}
 
-const ProductCard = ({}: IProps) => {
+const ProductCard = ({product:{attributes}}: IProps) => {
   const { colorMode } = useColorMode();
-  console.log(colorMode);
-
+  
   return (
-    <Card maxW="sm" border={"1px solid #a8b5c8"} margin={10} bg={"none"}>
+    <Card border={"1px solid #a8b5c8"} margin={4} bg={"none"}>
       <CardBody>
         <Image
-          src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-          alt="Green double couch with wooden legs"
+          src={`${import.meta.env.VITE_SERVER_URL}${attributes.thumbnail.data.attributes.url}`} alt="Green double couch with wooden legs"
           borderRadius="full"
           boxSize={"200px"}
           mx={"auto"}
           objectFit={"cover"}
         />
         <Stack mt="6" spacing="3" textAlign={"center"}>
-          <Heading size="md">Living room Sofa</Heading>
-          <Text fontSize={"sm"}>
-            This sofa is perfect for modern tropical spaces, baroque inspired spaces, earthy toned spaces and for people who love a chic design with a sprinkle of vintage design.
+          <Heading size="md">{attributes.title}</Heading>
+          <Text fontSize={"sm"}>{attributes.description}
           </Text>
           <Text color="blue.600" fontSize="3xl">
-            $450
+            ${attributes.price}
           </Text>
         </Stack>
       </CardBody>
